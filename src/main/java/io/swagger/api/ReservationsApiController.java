@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
@@ -63,7 +64,7 @@ public class ReservationsApiController implements ReservationsApi {
 
     public ResponseEntity<Void> saveRoomReservation(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("roomId") Integer roomId,
                                                     @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG,
-                                                    @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody Reservation reservation) throws NotFoundException {
+                                                    @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody Reservation reservation) throws NotFoundException, HttpClientErrorException {
         String accept = request.getHeader("Accept");
         if(accept!=null && accept.contains("application/json")) {
             reservationService.saveRoomReservation(roomId, guestJMBG, reservation);

@@ -6,6 +6,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -54,5 +55,15 @@ public class RestExceptionHandler {
                 new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),errors,System.currentTimeMillis());
 
         return new ResponseEntity<>(errorResponse,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(HttpClientErrorException.class)
+    public ResponseEntity<ErrorResponse> handleException(HttpClientErrorException ex){
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error",ex.getMessage());
+        ErrorResponse errorResponse =
+                new ErrorResponse(HttpStatus.CONFLICT.value(),errors,System.currentTimeMillis());
+
+        return new ResponseEntity<>(errorResponse,HttpStatus.CONFLICT);
     }
 }

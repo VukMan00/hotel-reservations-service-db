@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.CookieValue;
 
@@ -74,7 +75,7 @@ public interface GuestsApi {
     @RequestMapping(value = "/guests",
         consumes = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Void> registrationGuest(@Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody Guest body);
+    ResponseEntity<Void> registrationGuest(@Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody Guest body) throws HttpClientErrorException;
 
 
     @Operation(summary = "Creates Promo Code", description = "Creates Promo Code for Guest to use for other reservations", security = {
@@ -89,7 +90,7 @@ public interface GuestsApi {
         consumes = { "application/json" }, 
         method = RequestMethod.POST)
     ResponseEntity<Void> savePromoCode(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG,
-                                       @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody PromoCode body) throws NotFoundException;
+                                       @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody PromoCode body) throws NotFoundException, HttpClientErrorException;
 
 }
 

@@ -7,7 +7,9 @@ import io.swagger.model.ReservationPK;
 import io.swagger.model.Room;
 import io.swagger.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Optional;
@@ -56,7 +58,7 @@ public class ReservationService {
         }
     }
 
-    public void saveRoomReservation(Integer roomId, String guestJMBG, Reservation reservation) throws NotFoundException {
+    public void saveRoomReservation(Integer roomId, String guestJMBG, Reservation reservation) throws NotFoundException,HttpClientErrorException {
         Guest guest = guestsService.getGuest(guestJMBG);
         Room room = roomService.getRoom(roomId);
 
@@ -64,7 +66,11 @@ public class ReservationService {
         reservation.setGuest(guest);
         reservation.setReservationPK(new ReservationPK(roomId,guestJMBG));
 
-        reservationRepository.save(reservation);
+        if(reservationRepository.findByReservationPK(reservation.getReservationPK())==null) {
+            reservationRepository.save(reservation);
+        }else{
+            throw new HttpClientErrorException(HttpStatus.CONFLICT,"Reservation with this primary Key already exists");
+        }
     }
 }
 

@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
@@ -55,7 +56,7 @@ public class GuestsApiController implements GuestsApi {
         return new ResponseEntity<List<PromoCode>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> registrationGuest(@Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody Guest guest) {
+    public ResponseEntity<Void> registrationGuest(@Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody Guest guest) throws HttpClientErrorException {
         String accept = request.getHeader("Accept");
         if(accept != null && accept.contains("application/json")){
             guestsService.saveGuest(guest);
@@ -65,7 +66,7 @@ public class GuestsApiController implements GuestsApi {
     }
 
     public ResponseEntity<Void> savePromoCode(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG,
-                                              @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody PromoCode promoCode) throws NotFoundException {
+                                              @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody PromoCode promoCode) throws NotFoundException,HttpClientErrorException {
         String accept = request.getHeader("Accept");
         if(accept!=null && accept.contains("application/json")){
             guestsService.saveQuestPromoCode(guestJMBG,promoCode);

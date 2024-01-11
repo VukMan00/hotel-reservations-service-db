@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation, ReservationPK> {
 
+    Reservation findByReservationPK(ReservationPK reservationPK);
     List<Reservation> findByReservationPK_Id(Integer Id);
 }
