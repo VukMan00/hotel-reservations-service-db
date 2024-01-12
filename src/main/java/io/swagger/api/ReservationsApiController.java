@@ -41,8 +41,12 @@ public class ReservationsApiController implements ReservationsApi {
 
     public ResponseEntity<Void> deleteReservation(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("roomId") Integer roomId,
                                                   @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG) throws NotFoundException {
-        reservationService.deleteReservation(roomId,guestJMBG);
-        return new ResponseEntity<>(HttpStatus.OK);
+        String accept = request.getHeader("Accept");
+        if(accept!=null && accept.contains("application/json")) {
+            reservationService.deleteReservation(roomId, guestJMBG);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<Reservation> getReservation(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("roomId") Integer roomId,

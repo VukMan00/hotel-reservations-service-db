@@ -60,7 +60,7 @@ public class GuestsService {
 
     }
 
-    public void saveQuestPromoCode(String guestJMBG, PromoCode promoCode) throws NotFoundException,HttpClientErrorException{
+    public void saveGuestPromoCode(String guestJMBG, PromoCode promoCode) throws NotFoundException,HttpClientErrorException{
         Guest guest = getGuest(guestJMBG);
 
         promoCode.setGuest(guest);

@@ -222,7 +222,7 @@ public class Room implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, capacity, name, description, price, picture, reservations);
+    return Objects.hash(id, capacity, name, description, price, picture);
   }
 
   @Override
@@ -236,7 +236,6 @@ public class Room implements Serializable {
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    price: ").append(toIndentedString(price)).append("\n");
     sb.append("    picture: ").append(toIndentedString(picture)).append("\n");
-    sb.append("    reservations: ").append(toIndentedString(reservations)).append("\n");
     sb.append("}");
     return sb.toString();
   }

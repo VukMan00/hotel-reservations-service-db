@@ -250,8 +250,6 @@ public class Guest implements Serializable {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    lastname: ").append(toIndentedString(lastname)).append("\n");
     sb.append("    dateOfBirth: ").append(toIndentedString(dateOfBirth)).append("\n");
-    sb.append("    reservations: ").append(toIndentedString(reservations)).append("\n");
-    sb.append("    promoCodes: ").append(toIndentedString(promoCodes)).append("\n");
     sb.append("}");
     return sb.toString();
   }

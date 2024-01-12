@@ -7,7 +7,6 @@ import io.swagger.repository.PromoCodeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
-import sun.net.www.http.HttpClient;
 
 import java.util.List;
 

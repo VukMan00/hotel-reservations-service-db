@@ -69,7 +69,7 @@ public class GuestsApiController implements GuestsApi {
                                               @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody PromoCode promoCode) throws NotFoundException,HttpClientErrorException {
         String accept = request.getHeader("Accept");
         if(accept!=null && accept.contains("application/json")){
-            guestsService.saveQuestPromoCode(guestJMBG,promoCode);
+            guestsService.saveGuestPromoCode(guestJMBG,promoCode);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);

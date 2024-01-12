@@ -235,8 +235,6 @@ public class Reservation implements Serializable {
     }
     Reservation reservation = (Reservation) o;
     return Objects.equals(this.reservationPK, reservation.reservationPK) &&
-        Objects.equals(this.room, reservation.room) &&
-        Objects.equals(this.guest, reservation.guest) &&
         Objects.equals(this.dateFrom, reservation.dateFrom) &&
         Objects.equals(this.dateTo, reservation.dateTo) &&
         Objects.equals(this.email, reservation.email) &&
@@ -246,7 +244,7 @@ public class Reservation implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(reservationPK, room, guest, dateFrom, dateTo, email, token, price);
+    return Objects.hash(reservationPK, dateFrom, dateTo, email, token, price);
   }
 
   @Override
