@@ -3,15 +3,12 @@ package io.swagger.model;
 import java.io.Serializable;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
@@ -40,7 +37,6 @@ public class PromoCodePK implements Serializable {
    * @return id
    **/
   @Schema(required = true, description = "")
-      @NotNull(message = "Id of promeCode can't be null")
 
     public Integer getId() {
     return id;

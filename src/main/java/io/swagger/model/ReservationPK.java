@@ -1,13 +1,13 @@
 package io.swagger.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -27,11 +27,21 @@ public class ReservationPK implements Serializable {
   @NotBlank(message = "Jmbg of guest is mandatory")
   private String jmbg = null;
 
+  @JsonProperty("dateFrom")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private Date dateFrom = null;
+
+  @JsonProperty("dateTo")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private Date dateTo = null;
+
   public ReservationPK(){}
 
-  public ReservationPK(Integer id, String jmbg){
+  public ReservationPK(Integer id, String jmbg, Date dateFrom, Date dateTo){
     this.id = id;
     this.jmbg = jmbg;
+    this.dateFrom = dateFrom;
+    this.dateTo = dateTo;
   }
 
   public ReservationPK id(Integer id) {
@@ -74,6 +84,48 @@ public class ReservationPK implements Serializable {
     this.jmbg = jmbg;
   }
 
+  public ReservationPK dateFrom(Date dateFrom) {
+    this.dateFrom = dateFrom;
+    return this;
+  }
+
+  /**
+   * Get dateFrom
+   * @return dateFrom
+   **/
+  @Schema(required = true, description = "")
+  @NotNull(message = "Date from can't be null")
+
+  @Valid
+  public Date getDateFrom() {
+    return dateFrom;
+  }
+
+  public void setDateFrom(Date dateFrom) {
+    this.dateFrom = dateFrom;
+  }
+
+  public ReservationPK dateTo(Date dateTo) {
+    this.dateTo = dateTo;
+    return this;
+  }
+
+  /**
+   * Get dateTo
+   * @return dateTo
+   **/
+  @Schema(required = true, description = "")
+  @NotNull(message = "Date to can't be null")
+
+  @Valid
+  public Date getDateTo() {
+    return dateTo;
+  }
+
+  public void setDateTo(Date dateTo) {
+    this.dateTo = dateTo;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -84,8 +136,10 @@ public class ReservationPK implements Serializable {
       return false;
     }
     ReservationPK reservationPK = (ReservationPK) o;
-    return Objects.equals(this.id, reservationPK.id) &&
-        Objects.equals(this.jmbg, reservationPK.jmbg);
+    return  Objects.equals(this.id, reservationPK.id) &&
+            Objects.equals(this.jmbg, reservationPK.jmbg) &&
+            Objects.equals(this.dateFrom,reservationPK.dateFrom) &&
+            Objects.equals(this.dateTo, reservationPK.dateTo);
   }
 
   @Override
@@ -100,6 +154,8 @@ public class ReservationPK implements Serializable {
     
     sb.append("    roomId: ").append(toIndentedString(id)).append("\n");
     sb.append("    guestJMBG: ").append(toIndentedString(jmbg)).append("\n");
+    sb.append("    dateFrom: ").append(toIndentedString(dateFrom)).append("\n");
+    sb.append("    dateTo: ").append(toIndentedString(dateTo)).append("\n");
     sb.append("}");
     return sb.toString();
   }

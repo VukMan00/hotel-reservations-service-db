@@ -19,10 +19,6 @@ public class PromoCodeService {
         this.promoCodeRepository = promoCodeRepository;
     }
 
-    public List<PromoCode> getAll(){
-        return promoCodeRepository.findAll();
-    }
-
     public List<PromoCode> getGuestPromoCodes(Guest guest) throws NotFoundException {
         List<PromoCode> promoCodes = promoCodeRepository.findByPromoCodePK_Jmbg(guest.getJmbg());
         if(!promoCodes.isEmpty()){

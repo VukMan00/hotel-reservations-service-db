@@ -1,17 +1,9 @@
 package io.swagger.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.model.Guest;
-import io.swagger.model.ReservationPK;
-import io.swagger.model.Room;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.aspectj.lang.annotation.Before;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EmbeddedId;
@@ -43,20 +35,12 @@ public class Reservation implements Serializable {
   @JsonProperty("guest")
   private Guest guest = null;
 
-  @JsonProperty("dateFrom")
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
-  private Date dateFrom = null;
-
-  @JsonProperty("dateTo")
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
-  private Date dateTo = null;
-
   @JsonProperty("email")
   @Email(message = "Email must be in valid format")
   private String email = null;
 
   @JsonProperty("token")
-  @Size(min = 5, max = 15, message = "Number of characters for token must be in range of 5-15 characters")
+  @NotBlank(message = "Token is mandatory")
   private String token = null;
 
   @JsonProperty("price")
@@ -120,48 +104,6 @@ public class Reservation implements Serializable {
 
   public void setGuest(Guest guest) {
     this.guest = guest;
-  }
-
-  public Reservation dateFrom(Date dateFrom) {
-    this.dateFrom = dateFrom;
-    return this;
-  }
-
-  /**
-   * Get dateFrom
-   * @return dateFrom
-   **/
-  @Schema(required = true, description = "")
-      @NotNull(message = "Date from can't be null")
-
-    @Valid
-    public Date getDateFrom() {
-    return dateFrom;
-  }
-
-  public void setDateFrom(Date dateFrom) {
-    this.dateFrom = dateFrom;
-  }
-
-  public Reservation dateTo(Date dateTo) {
-    this.dateTo = dateTo;
-    return this;
-  }
-
-  /**
-   * Get dateTo
-   * @return dateTo
-   **/
-  @Schema(required = true, description = "")
-      @NotNull(message = "Date to can't be null")
-
-    @Valid
-    public Date getDateTo() {
-    return dateTo;
-  }
-
-  public void setDateTo(Date dateTo) {
-    this.dateTo = dateTo;
   }
 
   public Reservation email(String email) {
@@ -235,8 +177,6 @@ public class Reservation implements Serializable {
     }
     Reservation reservation = (Reservation) o;
     return Objects.equals(this.reservationPK, reservation.reservationPK) &&
-        Objects.equals(this.dateFrom, reservation.dateFrom) &&
-        Objects.equals(this.dateTo, reservation.dateTo) &&
         Objects.equals(this.email, reservation.email) &&
         Objects.equals(this.token, reservation.token) &&
         Objects.equals(this.price, reservation.price);
@@ -244,7 +184,7 @@ public class Reservation implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(reservationPK, dateFrom, dateTo, email, token, price);
+    return Objects.hash(reservationPK, email, token, price);
   }
 
   @Override
@@ -255,8 +195,6 @@ public class Reservation implements Serializable {
     sb.append("    reservationPK: ").append(toIndentedString(reservationPK)).append("\n");
     sb.append("    room: ").append(toIndentedString(room)).append("\n");
     sb.append("    guest: ").append(toIndentedString(guest)).append("\n");
-    sb.append("    dateFrom: ").append(toIndentedString(dateFrom)).append("\n");
-    sb.append("    dateTo: ").append(toIndentedString(dateTo)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    token: ").append(toIndentedString(token)).append("\n");
     sb.append("    price: ").append(toIndentedString(price)).append("\n");
