@@ -6,10 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -37,6 +34,7 @@ public class Reservation implements Serializable {
 
   @JsonProperty("email")
   @Email(message = "Email must be in valid format")
+  @Column(unique = true)
   private String email = null;
 
   @JsonProperty("token")

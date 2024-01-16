@@ -3,7 +3,6 @@ package io.swagger.services;
 import io.swagger.exception.NotFoundException;
 import io.swagger.model.Guest;
 import io.swagger.model.Reservation;
-import io.swagger.model.ReservationPK;
 import io.swagger.model.Room;
 import io.swagger.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ReservationService {
@@ -31,22 +29,19 @@ public class ReservationService {
         this.roomService = roomService;
     }
 
-    public Reservation getReservation(Integer roomId, String guestJMBG, Date dateFrom, Date dateTo) throws NotFoundException {
-        roomService.getRoom(roomId);
-        guestsService.getGuest(guestJMBG);
-        ReservationPK reservationPK = new ReservationPK(roomId,guestJMBG,dateFrom,dateTo);
-        Optional<Reservation> reservation = reservationRepository.findById(reservationPK);
-        if(reservation.isPresent()){
-            return reservation.get();
+    public Reservation getReservation(String email, String token) throws NotFoundException {
+        Reservation reservation = reservationRepository.findByEmailAndToken(email,token);
+        if(reservation != null){
+            return reservation;
         }
         else{
             throw new NotFoundException(404,"Reservation not found");
         }
     }
 
-    public void deleteReservation(Integer roomId, String guestJMBG,Date dateFrom, Date dateTo) throws NotFoundException {
-        Reservation reservation = getReservation(roomId,guestJMBG,dateFrom,dateTo);
-        reservationRepository.deleteById(reservation.getReservationPK());
+    public void deleteReservation(String email,String token) throws NotFoundException {
+        Reservation reservation = getReservation(email,token);
+        reservationRepository.delete(reservation);
     }
 
     public List<Reservation> getRoomReservations(Integer roomId) throws NotFoundException {
@@ -54,9 +49,9 @@ public class ReservationService {
         return reservationRepository.findByReservationPK_Id(roomId);
     }
 
-    public void saveRoomReservation(Integer roomId, String guestJMBG, Reservation reservation) throws NotFoundException,HttpClientErrorException {
-        Guest guest = guestsService.getGuest(guestJMBG);
-        Room room = roomService.getRoom(roomId);
+    public void saveRoomReservation(Reservation reservation) throws NotFoundException,HttpClientErrorException {
+        Guest guest = guestsService.getGuest(reservation.getReservationPK().getJmbg());
+        Room room = roomService.getRoom(reservation.getReservationPK().getId());
 
         reservation.setRoom(room);
         reservation.setGuest(guest);
@@ -77,10 +72,8 @@ public class ReservationService {
         return reservationRepository.findByReservationPK_IdAndReservationPK_DateFromAndReservationPK_DateTo(roomId,dateFrom,dateTo);
     }
 
-    public void updatePriceOfReservation(Integer roomId, String guestJMBG, Date dateFrom, Date dateTo, Reservation reservation) throws NotFoundException {
-        ReservationPK reservationPK = new ReservationPK(roomId,guestJMBG,dateFrom,dateTo);
-        reservation.setReservationPK(reservationPK);
-        if(reservationRepository.findByReservationPK(reservation.getReservationPK())!=null) {
+    public void updatePriceOfReservation(String email, String token, Reservation reservation) throws NotFoundException {
+        if(getReservation(email,token)!=null) {
             reservationRepository.save(reservation);
         }
         else{

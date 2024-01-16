@@ -41,6 +41,7 @@ public class Guest implements Serializable {
 
   @JsonProperty("dateOfBirth")
   @PastOrPresent(message = "Date of Birth must be in past")
+  @Temporal(TemporalType.DATE)
   private Date dateOfBirth = null;
 
   @OneToMany(mappedBy = "guest")

@@ -61,7 +61,7 @@ public class Credentials implements Serializable{
     }
   }
   @JsonProperty("typeGuest")
-  private TypeGuestEnum typeGuest = null;
+  private TypeGuestEnum typeGuest = TypeGuestEnum.USER;
 
   public Credentials username(String username) {
     this.username = username;

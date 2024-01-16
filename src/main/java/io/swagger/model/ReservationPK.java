@@ -9,6 +9,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -29,10 +31,12 @@ public class ReservationPK implements Serializable {
 
   @JsonProperty("dateFrom")
   @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @Temporal(TemporalType.DATE)
   private Date dateFrom = null;
 
   @JsonProperty("dateTo")
   @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @Temporal(TemporalType.DATE)
   private Date dateTo = null;
 
   public ReservationPK(){}

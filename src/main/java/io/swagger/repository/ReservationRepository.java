@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation, ReservationPK> {
 
+    Reservation findByEmailAndToken(String email, String token);
     Reservation findByReservationPK(ReservationPK reservationPK);
     List<Reservation> findByReservationPK_Id(Integer Id);
-
     List<Reservation> findByReservationPK_IdAndReservationPK_DateFromAndReservationPK_DateTo(Integer id, Date dateFrom, Date dateTo);
 }
