@@ -29,8 +29,7 @@ public class Room implements Serializable {
   private Integer id = null;
 
   @JsonProperty("capacity")
-  @NotBlank(message = "Capacity of room is mandatory")
-  @Size(min = 1, message = "Room must have at least one guest")
+  @Min(value = 1, message = "Room must have at least one guest")
   private Integer capacity = null;
 
   @JsonProperty("name")
@@ -42,7 +41,6 @@ public class Room implements Serializable {
   private String description = null;
 
   @JsonProperty("price")
-  @NotBlank(message = "Price is mandatory")
   private Integer price = null;
 
   @JsonProperty("picture")

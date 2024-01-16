@@ -7,10 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -25,6 +22,10 @@ public class PromoCode implements Serializable {
   @EmbeddedId
   @JsonProperty("promoCodePK")
   private PromoCodePK promoCodePK = null;
+
+  @JsonProperty("code")
+  @Column(unique = true)
+  private String code;
 
   @JsonProperty("discount")
   @Min(value = 0,message = "Discount can't be less than 0%")
@@ -49,7 +50,7 @@ public class PromoCode implements Serializable {
    * @return promoCodePK
    **/
   @Schema(description = "")
-  
+  @NotNull
     @Valid
     public PromoCodePK getPromoCodePK() {
     return promoCodePK;
@@ -57,6 +58,26 @@ public class PromoCode implements Serializable {
 
   public void setPromoCodePK(PromoCodePK promoCodePK) {
     this.promoCodePK = promoCodePK;
+  }
+
+  public PromoCode code(String code){
+    this.code = code;
+    return this;
+  }
+
+  /**
+   * Get code
+   * @return code
+   **/
+  @Schema(required = true, description = "")
+  @NotNull(message = "Code can't be null")
+
+  public String getCode() {
+    return code;
+  }
+
+  public void setCode(String code) {
+    this.code = code;
   }
 
   public PromoCode discount(Integer discount) {
@@ -129,9 +150,10 @@ public class PromoCode implements Serializable {
       return false;
     }
     PromoCode promoCode = (PromoCode) o;
-    return Objects.equals(this.promoCodePK, promoCode.promoCodePK) &&
-        Objects.equals(this.discount, promoCode.discount) &&
-        Objects.equals(this.used, promoCode.used);
+    return  Objects.equals(this.promoCodePK, promoCode.promoCodePK) &&
+            Objects.equals(this.code,promoCode.code) &&
+            Objects.equals(this.discount, promoCode.discount) &&
+            Objects.equals(this.used, promoCode.used);
   }
 
   @Override
@@ -145,6 +167,7 @@ public class PromoCode implements Serializable {
     sb.append("class PromoCode {\n");
     
     sb.append("    promoCodePK: ").append(toIndentedString(promoCodePK)).append("\n");
+    sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    discount: ").append(toIndentedString(discount)).append("\n");
     sb.append("    used: ").append(toIndentedString(used)).append("\n");
     sb.append("}");

@@ -65,6 +65,22 @@ public interface ReservationsApi {
                                                @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("dateFrom") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateFrom,
                                                @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateTo) throws NotFoundException;
 
+    @Operation(summary = "Update price of Reservation", description = "Update price of reservation based on inserted PromoCode", security = {
+            @SecurityRequirement(name = "BasicAuth")    }, tags={ "Reservation" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Reservation is successfully updated", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Reservation.class))),
+
+            @ApiResponse(responseCode = "404", description = "Reservation not found"),
+
+            @ApiResponse(responseCode = "500", description = "An error occured while processing the request. ") })
+    @RequestMapping(value = "/reservations/rooms/{roomId}/guests/{guestJMBG}/dateFrom/{dateFrom}/dateTo/{dateTo}",
+            produces = { "application/json" },
+            method = RequestMethod.PUT)
+    ResponseEntity<Void> updatePriceOfReservation(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("roomId") Integer roomId,
+                                                  @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG,
+                                                  @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("dateFrom") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateFrom,
+                                                  @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateTo,
+                                                  @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody Reservation reservation) throws NotFoundException;
 
     @Operation(summary = "Return Reservation", description = "Returns the reservation of room", security = {
         @SecurityRequirement(name = "BasicAuth")    }, tags={ "Reservation" })
@@ -98,7 +114,7 @@ public interface ReservationsApi {
     @Operation(summary = "Gets reservation from date", description = "Get all reservations from period of date", security = {
             @SecurityRequirement(name = "BasicAuth")    }, tags={ "Reservation" })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Fetch Reservatons of Room", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Reservation.class)))),
+            @ApiResponse(responseCode = "200", description = "Fetch Reservations of Room", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Reservation.class)))),
 
             @ApiResponse(responseCode = "404", description = "Room not found"),
 

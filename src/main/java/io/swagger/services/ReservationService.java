@@ -76,6 +76,17 @@ public class ReservationService {
     public List<Reservation> getRoomReservationsOfDate(Integer roomId, Date dateFrom, Date dateTo){
         return reservationRepository.findByReservationPK_IdAndReservationPK_DateFromAndReservationPK_DateTo(roomId,dateFrom,dateTo);
     }
+
+    public void updatePriceOfReservation(Integer roomId, String guestJMBG, Date dateFrom, Date dateTo, Reservation reservation) throws NotFoundException {
+        ReservationPK reservationPK = new ReservationPK(roomId,guestJMBG,dateFrom,dateTo);
+        reservation.setReservationPK(reservationPK);
+        if(reservationRepository.findByReservationPK(reservation.getReservationPK())!=null) {
+            reservationRepository.save(reservation);
+        }
+        else{
+            throw new NotFoundException(404,"Reservation not found");
+        }
+    }
 }
 
 

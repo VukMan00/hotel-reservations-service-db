@@ -4,9 +4,7 @@ import io.swagger.exception.NotFoundException;
 import io.swagger.model.Guest;
 import io.swagger.model.PromoCode;
 import io.swagger.repository.PromoCodeRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -30,10 +28,6 @@ public class PromoCodeService {
     }
 
     public void savePromoCode(PromoCode promoCode){
-        if(promoCodeRepository.findPromoCodeByPromoCodePK(promoCode.getPromoCodePK())==null) {
-            promoCodeRepository.save(promoCode);
-        }else{
-            throw new HttpClientErrorException(HttpStatus.CONFLICT,"PromoCode with this primary Key already exists");
-        }
+        promoCodeRepository.save(promoCode);
     }
 }

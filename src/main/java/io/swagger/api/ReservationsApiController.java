@@ -91,4 +91,14 @@ public class ReservationsApiController implements ReservationsApi {
         }
         return new ResponseEntity<List<Reservation>>(HttpStatus.NOT_IMPLEMENTED);
     }
+
+    @Override
+    public ResponseEntity<Void> updatePriceOfReservation(Integer roomId, String guestJMBG, Date dateFrom, Date dateTo, Reservation reservation) throws NotFoundException {
+        String accept = request.getHeader("Accept");
+        if(accept!=null && accept.contains("application/json")) {
+            reservationService.updatePriceOfReservation(roomId, guestJMBG,dateFrom,dateTo,reservation);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    }
 }
