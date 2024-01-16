@@ -65,8 +65,11 @@ public class GuestsService {
 
         promoCode.setGuest(guest);
         promoCode.getPromoCodePK().setJmbg(guestJMBG);
-
         promoCodeService.savePromoCode(promoCode);
     }
 
+    public PromoCode getPromoCode(String guestJMBG, String code) throws NotFoundException {
+        getGuest(guestJMBG);
+        return promoCodeService.getGuestPromoCode(code);
+    }
 }

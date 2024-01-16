@@ -56,6 +56,15 @@ public class GuestsApiController implements GuestsApi {
         return new ResponseEntity<List<PromoCode>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+    @Override
+    public ResponseEntity<PromoCode> getPromoCode(String guestJMBG, String code) throws NotFoundException {
+        String accept = request.getHeader("Accept");
+        if (accept != null && accept.contains("application/json")) {
+            return new ResponseEntity<>(guestsService.getPromoCode(guestJMBG,code),HttpStatus.OK);
+        }
+        return new ResponseEntity<PromoCode>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
     public ResponseEntity<Void> registrationGuest(@Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody Guest guest) throws HttpClientErrorException {
         String accept = request.getHeader("Accept");
         if(accept != null && accept.contains("application/json")){

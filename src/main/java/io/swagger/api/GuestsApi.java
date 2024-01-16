@@ -60,6 +60,19 @@ public interface GuestsApi {
         method = RequestMethod.GET)
     ResponseEntity<List<PromoCode>> getPromoCodes(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG) throws NotFoundException;
 
+    @Operation(summary = "Return Promo Code", description = "Return Promo Code of Guest with specific code", security = {
+            @SecurityRequirement(name = "BasicAuth")    }, tags={ "Guest" })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fetch Promo Code", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PromoCode.class)))),
+
+            @ApiResponse(responseCode = "404", description = "Promo Code not found"),
+
+            @ApiResponse(responseCode = "500", description = "An error occured while processing the request. ") })
+    @RequestMapping(value = "/guests/{guestJMBG}/promoCodes/{code}",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    ResponseEntity<PromoCode> getPromoCode(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG,
+                                                 @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("code") String code) throws NotFoundException;
 
     @Operation(summary = "Register guest", description = "Registration of a guest for specific hotel", tags={ "Guest" })
     @ApiResponses(value = { 

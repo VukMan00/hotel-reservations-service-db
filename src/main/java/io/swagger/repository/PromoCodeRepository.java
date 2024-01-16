@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface PromoCodeRepository extends JpaRepository<PromoCode, PromoCodePK> {
 
-    PromoCode findPromoCodeByPromoCodePK(PromoCodePK promoCodePK);
+    PromoCode findByCode(String code);
+
     List<PromoCode> findByPromoCodePK_Jmbg(String jmbg);
 }

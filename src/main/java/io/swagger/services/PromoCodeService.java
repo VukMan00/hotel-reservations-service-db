@@ -30,4 +30,12 @@ public class PromoCodeService {
     public void savePromoCode(PromoCode promoCode){
         promoCodeRepository.save(promoCode);
     }
+
+    public PromoCode getGuestPromoCode(String code) throws NotFoundException {
+        PromoCode promoCode = promoCodeRepository.findByCode(code);
+        if (promoCode != null) {
+            return promoCode;
+        }
+        throw new NotFoundException(404,"Promo Code not found");
+    }
 }
