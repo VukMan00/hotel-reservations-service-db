@@ -44,7 +44,9 @@ public class Room implements Serializable {
   private Integer price = null;
 
   @JsonProperty("picture")
-  private String picture = null;
+  @Lob
+  @Column(name = "picture", columnDefinition = "BLOB")
+  private byte[] picture = null;
 
   @OneToMany(mappedBy = "room")
   @JsonProperty("reservations")
@@ -151,7 +153,7 @@ public class Room implements Serializable {
     this.price = price;
   }
 
-  public Room picture(String picture) {
+  public Room picture(byte[] picture) {
     this.picture = picture;
     return this;
   }
@@ -161,12 +163,13 @@ public class Room implements Serializable {
    * @return picture
    **/
   @Schema(description = "")
-  
-    public String getPicture() {
+  @NotNull(message = "Picture of room can't be null")
+
+    public byte[] getPicture() {
     return picture;
   }
 
-  public void setPicture(String picture) {
+  public void setPicture(byte[] picture) {
     this.picture = picture;
   }
 
@@ -211,14 +214,12 @@ public class Room implements Serializable {
         Objects.equals(this.capacity, room.capacity) &&
         Objects.equals(this.name, room.name) &&
         Objects.equals(this.description, room.description) &&
-        Objects.equals(this.price, room.price) &&
-        Objects.equals(this.picture, room.picture) &&
-        Objects.equals(this.reservations, room.reservations);
+        Objects.equals(this.price, room.price);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, capacity, name, description, price, picture);
+    return Objects.hash(id, capacity, name, description, price);
   }
 
   @Override

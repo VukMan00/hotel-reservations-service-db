@@ -39,6 +39,7 @@ public class Reservation implements Serializable {
 
   @JsonProperty("token")
   @NotBlank(message = "Token is mandatory")
+  @Column(unique = true)
   private String token = null;
 
   @JsonProperty("price")
