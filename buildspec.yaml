@@ -8,8 +8,8 @@ phases:
     - echo Logging in to Amazon ECR...
     - aws --version
     - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 077546991657.dkr.ecr.us-east-1.amazonaws.com
-    - TAG=2.0.0
-    - IMAGE_URI=28911/${REPOSITORY_URI}:${TAG}
+    - TAG="$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
+    - IMAGE_URI=${REPOSITORY_URI}:${TAG}
   build:
     commands:
     - echo Build started on `date`
