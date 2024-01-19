@@ -60,7 +60,7 @@ public interface GuestsApi {
         method = RequestMethod.GET)
     ResponseEntity<List<PromoCode>> getPromoCodes(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("guestJMBG") String guestJMBG) throws NotFoundException;
 
-    @Operation(summary = "Return Promo Code", description = "Return Promo Code of Guest with specific code", security = {
+    @Operation(summary = "Return Promo Code", description = "Returns Promo Code of Guest with specific code", security = {
             @SecurityRequirement(name = "BasicAuth")    }, tags={ "Guest" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fetch Promo Code", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PromoCode.class)))),
