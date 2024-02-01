@@ -34,7 +34,6 @@ public class Reservation implements Serializable {
 
   @JsonProperty("email")
   @Email(message = "Email must be in valid format")
-  @Column(unique = true)
   private String email = null;
 
   @JsonProperty("token")

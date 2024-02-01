@@ -3,6 +3,8 @@ package io.swagger.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,13 +32,13 @@ public class ReservationPK implements Serializable {
   private String jmbg = null;
 
   @JsonProperty("dateFrom")
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
   @Temporal(TemporalType.DATE)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private Date dateFrom = null;
 
   @JsonProperty("dateTo")
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
   @Temporal(TemporalType.DATE)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private Date dateTo = null;
 
   public ReservationPK(){}

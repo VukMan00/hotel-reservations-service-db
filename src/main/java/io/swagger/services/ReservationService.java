@@ -58,6 +58,7 @@ public class ReservationService {
 
         if(reservationRepository.findByReservationPK(reservation.getReservationPK())==null) {
             if(reservation.getReservationPK().getDateFrom().before(reservation.getReservationPK().getDateTo())) {
+                System.out.println("ONCE" + reservation);
                 reservationRepository.save(reservation);
             }
             else{
@@ -73,8 +74,10 @@ public class ReservationService {
     }
 
     public void updatePriceOfReservation(String email, String token, Reservation reservation) throws NotFoundException {
-        if(getReservation(email,token)!=null) {
-            reservationRepository.save(reservation);
+        Reservation reservationDb = getReservation(email,token);
+        if(reservationDb!=null) {
+            reservationDb.setPrice(reservation.getPrice());
+            reservationRepository.save(reservationDb);
         }
         else{
             throw new NotFoundException(404,"Reservation not found");

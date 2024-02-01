@@ -44,6 +44,10 @@ public class Guest implements Serializable {
   @Temporal(TemporalType.DATE)
   private Date dateOfBirth = null;
 
+  @JsonProperty("username")
+  @Column(unique = true)
+  private String username;
+
   @OneToMany(mappedBy = "guest")
   @JsonProperty("reservations")
   @Valid
@@ -53,11 +57,6 @@ public class Guest implements Serializable {
   @JsonProperty("promoCodes")
   @Valid
   private List<PromoCode> promoCodes = null;
-
-  @JoinColumn(name="username",insertable = true, updatable = true)
-  @ManyToOne(optional = false)
-  @JsonProperty("credentials")
-  private Credentials credentials = null;
 
   public Guest jmbg(String jmbg) {
     this.jmbg = jmbg;
@@ -140,6 +139,27 @@ public class Guest implements Serializable {
     this.dateOfBirth = dateOfBirth;
   }
 
+  public Guest username(String username) {
+    this.username = username;
+    return this;
+  }
+
+  /**
+   * Get username
+   * @return username
+   **/
+  @Schema(required = true, description = "")
+  @NotNull(message = "Username can't be null")
+
+  @Valid
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
   public Guest reservations(List<Reservation> reservations) {
     this.reservations = reservations;
     return this;
@@ -194,27 +214,6 @@ public class Guest implements Serializable {
     this.promoCodes = promoCodes;
   }
 
-  public Guest credentials(Credentials credentials) {
-    this.credentials = credentials;
-    return this;
-  }
-
-  /**
-   * Get credentials
-   * @return credentials
-   **/
-  @Schema(required = true, description = "")
-      @NotNull(message = "Credentials can't be null")
-    @Valid
-    public Credentials getCredentials() {
-    return credentials;
-  }
-
-  public void setCredentials(Credentials credentials) {
-    this.credentials = credentials;
-  }
-
-
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -224,15 +223,16 @@ public class Guest implements Serializable {
       return false;
     }
     Guest guest = (Guest) o;
-    return Objects.equals(this.jmbg, guest.jmbg) &&
-        Objects.equals(this.name, guest.name) &&
-        Objects.equals(this.lastname, guest.lastname) &&
-        Objects.equals(this.dateOfBirth, guest.dateOfBirth);
+    return  Objects.equals(this.jmbg, guest.jmbg) &&
+            Objects.equals(this.name, guest.name) &&
+            Objects.equals(this.lastname, guest.lastname) &&
+            Objects.equals(this.dateOfBirth, guest.dateOfBirth) &&
+            Objects.equals(this.username, guest.username);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(jmbg, name, lastname, dateOfBirth);
+    return Objects.hash(jmbg, name, lastname, dateOfBirth, username);
   }
 
   @Override
@@ -244,6 +244,7 @@ public class Guest implements Serializable {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    lastname: ").append(toIndentedString(lastname)).append("\n");
     sb.append("    dateOfBirth: ").append(toIndentedString(dateOfBirth)).append("\n");
+    sb.append("    username: ").append(toIndentedString(username)).append("\n");
     sb.append("}");
     return sb.toString();
   }
