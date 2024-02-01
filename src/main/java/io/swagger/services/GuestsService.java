@@ -3,12 +3,9 @@ package io.swagger.services;
 import io.swagger.exception.NotFoundException;
 import io.swagger.model.Guest;
 import io.swagger.model.PromoCode;
-import io.swagger.model.Reservation;
 import io.swagger.repository.GuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
