@@ -51,7 +51,9 @@ public class GuestsService {
     }
 
     public void saveGuest(Guest guest) throws HttpClientErrorException{
+        System.out.println(guest);
         if(guestRepository.findByJmbg(guest.getJmbg())==null){
+            System.out.println("USAO SAM");
             guestRepository.save(guest);
         } else{
             throw new HttpClientErrorException(HttpStatus.CONFLICT,"Guest with this JMBG already exists");
